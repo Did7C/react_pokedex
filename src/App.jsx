@@ -1,20 +1,33 @@
+import pokemonList from "./components/pokemonList";
+import { useState } from "react";
 import PokemonCard from "./components/PokemonCard";
 
-const pokemonList = [
-  {
-    name: "bulbasaur",
-    imgSrc:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-  },
-  {
-    name: "mew",
-  },
-];
-
 function App() {
+  const [pokemonState, setPokemonState] = useState({
+    currentIndex: 0,
+  });
+
+  function swPokemon(direction) {
+    setPokemonState((prevState) => {
+      const currentIndex = prevState.currentIndex;
+      let newIndex;
+      if (direction === "next") {
+        newIndex = (currentIndex + 1) % pokemonList.length;
+      } else if (direction === "prev") {
+        newIndex = (currentIndex - 1 + pokemonList.length) % pokemonList.length;
+      }
+      return {
+        ...prevState,
+        currentIndex: newIndex,
+      };
+    });
+  }
+
   return (
     <div>
-      <PokemonCard pokemon={pokemonList[1]} />
+      <PokemonCard pokemon={pokemonList[pokemonState.currentIndex]} />
+      <button onClick={() => swPokemon("prev")}>Previous</button>
+      <button onClick={() => swPokemon("next")}>Next</button>
     </div>
   );
 }

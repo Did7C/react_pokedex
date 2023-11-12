@@ -30,6 +30,8 @@ function App() {
       <NavBar
         clickPrev={() => swPokemon("prev")}
         clickNext={() => swPokemon("next")}
+        pokemonList={pokemonList}
+        setPokemonState={setPokemonState}
       />
     </div>
   );
